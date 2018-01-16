@@ -58,7 +58,7 @@ class Polynomial(object):
             integratedCoefficients.append(self.coefficients[n] / (n+1))
         return Polynomial(integratedCoefficients)
 
-    # Outputs the polynomial as a string.
+    # Returns the polynomial as a formatted string.
     def show(self):
         polynomialAsString = "P(x) = " + str(self.coefficients[0])
         for n in range(0, self.order):
