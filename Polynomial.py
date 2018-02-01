@@ -61,6 +61,6 @@ class Polynomial(object):
     # Returns the polynomial as a formatted string.
     def show(self):
         polynomialAsString = "P(x) = " + str(self.coefficients[0])
-        for n in range(0, len(self.coefficients)):
-            polynomialAsString = polynomialAsString + " + " + str(self.coefficients[n+1]) + "x^" + str(n+1)
+        for n in range(1, len(self.coefficients)):
+            polynomialAsString = polynomialAsString + " + " + str(self.coefficients[n]) + "x^" + str(n)
         return polynomialAsString
