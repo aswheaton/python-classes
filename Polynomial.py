@@ -52,7 +52,7 @@ class Polynomial(object):
         return Polynomial(differentiatedCoefficients)
 
     # Returns a list of the coefficients of the indefinite integral of the polynomial.
-    def integral(self):
+    def antiderivative(self):
         integratedCoefficients = ["C"]
         for n in range(0, len(self.coefficients)):
             integratedCoefficients.append(self.coefficients[n] / (n+1))
