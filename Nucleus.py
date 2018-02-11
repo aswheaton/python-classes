@@ -2,6 +2,7 @@
     A simple class holding the nucleus of an atom and its properties.
     Author: Alexander S. Wheaton
     Date: 23rd January 2018
+    Updated: 11th February 2018
 """
 
 import random
