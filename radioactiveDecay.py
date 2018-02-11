@@ -1,7 +1,8 @@
 """
     Test program for the Nucleus class, Sample class, and Radioactive Decay Checkpoint.
     Author: Alexander S. Wheaton
-    Date 23rd January 2018
+    Date: 23rd January 2018
+    Updated: 11th February 2018
 """
 
 from Sample import Sample
