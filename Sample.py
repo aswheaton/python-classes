@@ -53,9 +53,9 @@ class Sample(object):
     def show(self):
         
         for row in range(0, self.size):
-            print('\n')
             for col in range(0, self.size):
                 if self.sample[row][col].isDecayed() == False:
                     print(1),
                 else:
                     print(0),
+            print('\n'),
