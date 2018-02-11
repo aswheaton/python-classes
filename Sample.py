@@ -54,7 +54,7 @@ class Sample(object):
         for row in range(0, self.size):
             print('\n')
             for col in range(0, self.size):
-                if self.sample[row][col].isDecayed() == False:
+                if self.sample[row][col].getIsDecayed() == False:
                     print(1),
                 else:
                     print(0),
