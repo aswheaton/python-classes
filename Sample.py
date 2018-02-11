@@ -14,19 +14,20 @@ class Sample(object):
         self.size = size
         self.decayConstant = decayConstant
 
-        self.sample = []
+        # Initialises an array-like list of lists, filled Nucleus class objects.
+        self.sample = ( ( [ Nucleus(decayConstant) ] * size) * size)
 
-        for row in range(0, self.size - 1):
-            for col in range(0, self.size - 1):
-                self.sample[row][col] = Nucleus(decayConstant)
+        # for row in range(0, self.size):
+        #     for col in range(0, self.size):
+        #         self.sample[row][col] = Nucleus(decayConstant)
 
     # Returns the number of decayed nuclei in the sample.
     def getDecayed(self):
 
         numberOfDecayedNuclei = 0
 
-        for row in range(0, self.size - 1):
-            for col in range(0, self.size - 1):
+        for row in range(0, self.size):
+            for col in range(0, self.size):
                 if self.sample[row][col] == True:
                     numberOfDecayedNuclei = numberOfDecayedNuclei + 1
 
@@ -37,8 +38,8 @@ class Sample(object):
 
         numberOfUndecayedNuclei = 0
 
-        for row in range(0, self.size - 1):
-            for col in range(0, self.size - 1):
+        for row in range(0, self.size):
+            for col in range(0, self.size):
                 if self.sample[row][col] == True:
                     numberOfUndecayedNuclei = numberOfUndecayedNuclei + 1
 
@@ -47,8 +48,8 @@ class Sample(object):
     # Simulates the passage of a given time interval in the sample.
     def stepForward(self, timeInterval):
 
-        for row in range(0, self.size - 1):
-            for col in range(0, self.size - 1):
+        for row in range(0, self.size):
+            for col in range(0, self.size):
                 self.sample[row][col].randomDecay(timeInterval)
 
     # Prints out the list of Nucleus objects making up the sample.
