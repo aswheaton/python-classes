@@ -15,14 +15,13 @@ def main():
     sample = Sample(size, decayConstant)
 
     elapsedTime = 0.0
-    sample.show()
 
-    while sample.getUndecayed() <= sample.getDecayed():
+    while sample.getUndecayedNuclei() <= sample.getDecayedNuclei():
 
         sample.stepForward(timeInterval)
         elapsedTime = elapsedTime + timeInterval
-        sample.show()
 
+    sample.show() 
     print('The total elapsed time is ' + str(elapsedTime) + 'minutes.')
 
 main()
