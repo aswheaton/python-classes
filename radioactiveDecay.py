@@ -17,7 +17,7 @@ def main():
 
     elapsedTime = 0.0
 
-    while sample.getUndecayedNuclei() <= sample.getDecayedNuclei():
+    while sample.getDecayedNuclei() <= sample.getUndecayedNuclei():
 
         sample.stepForward(timeInterval)
         elapsedTime = elapsedTime + timeInterval
