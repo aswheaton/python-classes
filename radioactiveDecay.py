@@ -12,12 +12,12 @@ def main():
     decayConstant = input('What is the value of the decay constant: ')
     size = input('What size should the list of nuclei be: ')
     timeInterval = input('At what time interval should the simulation be run (mins): ')
-
+    
+    print('Beginning simulation...')
+    
     sample = Sample(size, decayConstant)
 
     elapsedTime = 0.0
-    
-    print('Beginning simulation...')
     
     while sample.getDecayedNuclei() < sample.getUndecayedNuclei():
 
