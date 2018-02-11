@@ -16,7 +16,11 @@ class Sample(object):
         self.decayConstant = decayConstant
 
         # Initialises an array-like list of lists, filled with Nucleus class objects.
-        self.sample = [ [ Nucleus(decayConstant) ] * size ] * size
+        self.sample = []
+        for row in range(0, size):
+            self.sample.append([])
+            for col in range(0, size):
+                self.sample[row].append(Nucleus(decayConstant))
 
     # Returns the number of decayed nuclei in the sample.
     def getDecayedNuclei(self):
