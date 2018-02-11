@@ -18,25 +18,25 @@ class Sample(object):
         self.sample = [ [ Nucleus(decayConstant) ] * size ] * size
 
     # Returns the number of decayed nuclei in the sample.
-    def getDecayed(self):
+    def getDecayedNuclei(self):
 
         numberOfDecayedNuclei = 0
 
         for row in range(0, self.size):
             for col in range(0, self.size):
-                if self.sample[row][col] == True:
+                if self.sample[row][col].isDecayed() == True:
                     numberOfDecayedNuclei = numberOfDecayedNuclei + 1
 
         return numberOfDecayedNuclei
 
     # Returns the number of undecayed nuclei in the sample.
-    def getUndecayed(self):
+    def getUndecayedNuclei(self):
 
         numberOfUndecayedNuclei = 0
 
         for row in range(0, self.size):
             for col in range(0, self.size):
-                if self.sample[row][col] == True:
+                if self.sample[row][col].isDecayed() == False:
                     numberOfUndecayedNuclei = numberOfUndecayedNuclei + 1
 
         return numberOfUndecayedNuclei
@@ -54,7 +54,7 @@ class Sample(object):
         for row in range(0, self.size):
             print('\n')
             for col in range(0, self.size):
-                if self.sample[row][col].getIsDecayed() == False:
+                if self.sample[row][col].isDecayed() == False:
                     print(1),
                 else:
                     print(0),
