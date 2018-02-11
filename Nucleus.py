@@ -14,7 +14,7 @@ class Nucleus(object):
         self.isDecayed = False
     
     # Returns a boolean value of whether the nucleus object is decayed.
-    def isDecayed(self):
+    def getIsDecayed(self):
         return self.isDecayed
 
     # Randomly does or does not change the state of the object to decayed.
