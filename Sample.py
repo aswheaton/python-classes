@@ -52,6 +52,10 @@ class Sample(object):
             for col in range(0, self.size):
                 self.sample[row][col].randomDecay(timeInterval)
 
-    # Prints out the list of Nucleus objects making up the sample.
+    # Prints out a visual representation of the Nucleus objects making up the sample.
     def show(self):
-        print(self.sample.isDecayed)
+        
+        for row in range(0, self.size):
+            print('\n')
+            for col in range(0, self.size):
+                print(self.sample[row][col].isDecayed()),
