@@ -23,6 +23,7 @@ def main():
         elapsedTime = elapsedTime + timeInterval
 
     sample.show() 
-    print('\nThe total elapsed time is ' + str(elapsedTime) + ' minutes.')
+    print('Simulation complete. There remain ' + str(sample.getDecayedNuclei()) + 'decayed nuclei and ' + str(sample.getUndecayedNuclei()) + ' undecayed nuclei.')
+    print('The total elapsed time is ' + str(elapsedTime) + ' minutes.')
 
 main()
