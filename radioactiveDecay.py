@@ -23,6 +23,6 @@ def main():
         elapsedTime = elapsedTime + timeInterval
 
     sample.show() 
-    print('The total elapsed time is ' + str(elapsedTime) + 'minutes.')
+    print('\nThe total elapsed time is ' + str(elapsedTime) + ' minutes.')
 
 main()
