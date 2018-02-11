@@ -12,6 +12,10 @@ class Nucleus(object):
     def __init__(self, decayConstant):
         self.decayConstant = decayConstant
         self.isDecayed = False
+    
+    # Returns a boolean value of whether the nucleus object is decayed.
+    def isDecayed(self):
+        return self.isDecayed
 
     # Randomly does or does not change the state of the object to decayed.
     def randomDecay(self, timeInterval):
