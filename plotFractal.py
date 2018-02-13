@@ -7,6 +7,7 @@
 """
 
 import cmath
+import matplotlib
 
 def main():
     
@@ -24,7 +25,25 @@ def main():
         realCenter = float(input('Real center coordinate: '))
         imaginaryCenter = float(input('Imaginary center coordinate: '))
         imageCenter = realCenter + imaginaryCenter * 0j
-        
+    
+    # Gets more initial parameters for the generation of the fractal image.
+    
     iterations = int(input('To how many iterations should the fractal be generated: '))
+    
+    print('Generating image...')
+    
+    mandelbrotSet = []
+    
+    for row in range(imageCenter.real-imageRowSize/2, imageCenter.real+imageRowSize/2):
+        mandelbrotSet.append([])
+        for col in range(imageCenter.imag-imageColSize/2, imageCenter.imag+imageRowSize/2):
+            
+    
+    # Plots the generated image.
+    
+    matplotlib.pyplot.imshow(iters, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
+    matplotlib.pyplot.xlabel('Real Axis')
+    matplotlib.pyplot.ylabel('Imaginary Axis')
+    matplotlib.pyplot.title('Mandelbrot Fractal')
     
 main()
