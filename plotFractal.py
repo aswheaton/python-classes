@@ -32,16 +32,26 @@ def main():
     
     print('Generating image...')
     
-    mandelbrotSet = []
+    # Initialises a array like list of lists containing mathematical sets.
+    # This will be a class, later on, that recieves a particular function.
+    
+    fractalSet = []
+    
+    
+    
+    # Initialises an array-like list of lists containing the last term of an  mathematical sets.
+    # This will be class, later on, that recieves a fractal set object.
+    
+    fractalImage = []
     
     for row in range(imageCenter.real-imageRowSize/2, imageCenter.real+imageRowSize/2):
-        mandelbrotSet.append([])
+        fractalImage.append([])
         for col in range(imageCenter.imag-imageColSize/2, imageCenter.imag+imageRowSize/2):
-            
+            fractalImage[row][col].append(fractalSet[row][col].last())
     
     # Plots the generated image.
     
-    matplotlib.pyplot.imshow(iters, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
+    matplotlib.pyplot.imshow(fractalImage, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
     matplotlib.pyplot.xlabel('Real Axis')
     matplotlib.pyplot.ylabel('Imaginary Axis')
     matplotlib.pyplot.title('Mandelbrot Fractal')
