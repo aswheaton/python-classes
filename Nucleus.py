@@ -21,5 +21,5 @@ class Nucleus(object):
     # Randomly does or does not change the state of the object to decayed.
     def randomDecay(self, timeInterval):
         if self.decayed != True:
-            if random.uniform(0, 1) < (self.decayConstant * timeInterval):
+            if random.random() < (self.decayConstant * timeInterval):
                 self.decayed = True
