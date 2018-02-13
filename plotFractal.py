@@ -9,9 +9,7 @@
 import cmath
 import matplotlib
 
-def class MathematicalSet(object):
-    
-    # Initialises the class and stores the mathematical set as a list. 
+def class MathematicalSet(object): 
     
     def __init__(self, initialParameter, complexParameter, thresholdValue, maxIterations):
     
@@ -41,13 +39,13 @@ def class FractalSet(object):
         for realComponent in range(minimum.real, maximum.real, step):
             self.set.append([])
             for imaginaryComponent in range(minimum.imag, maximum.imag, step):
-                self.set.append
+                self.set.append()
 
 # Initialises an array-like list of lists containting the iterations to a threshold value for a particular complex parameter.
 
 def class FractalImage(object):
 
-    def __init__(self
+    def __init__(self):
     
     self.fractalImage = []
     
@@ -57,11 +55,12 @@ def class FractalImage(object):
             fractalImage[row][col].append(fractalSet[row][col].iterationsToThreshhold())
     
     # Plots the generated image.
+    def show(self):
     
-    matplotlib.pyplot.imshow(fractalImage, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
-    matplotlib.pyplot.xlabel('Real Axis')
-    matplotlib.pyplot.ylabel('Imaginary Axis')
-    matplotlib.pyplot.title('Mandelbrot Fractal')
+        matplotlib.pyplot.imshow(self.fractalImage, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
+        matplotlib.pyplot.xlabel('Real Axis')
+        matplotlib.pyplot.ylabel('Imaginary Axis')
+        matplotlib.pyplot.title('Mandelbrot Fractal')
 
 def main():
     
@@ -85,18 +84,7 @@ def main():
     maxIterations = int(input('To how many iterations should the fractal be generated: '))
     
     print('Generating image...')
-    
-    # Initialises a list of numbers in a mathematical set, given a funciton, initial parameter and iteration limit.
-        
-    
-    
-    
-
-    
-    
-    # Initialises an array-like list of lists containing the iterations to a threshold value for mathematical sets of varying complex parameters.
-    # This will be class, later on, that recieves a fractal set object.
-    
-
+    fractalImage = FractalImage(initialParameter, imageRowSize, imageColSize, imageCenter, maxIterations)
+    fractalImage.show()
     
 main()
