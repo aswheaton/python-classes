@@ -9,6 +9,60 @@
 import cmath
 import matplotlib
 
+def class MathematicalSet(object):
+    
+    # Initialises the class and stores the mathematical set as a list. 
+    
+    def __init__(self, initialParameter, complexParameter, thresholdValue, maxIterations):
+    
+        self.set = []
+        z = initialParameter
+        
+        for iterations in range(0, maxIterations):
+            self.set.append(z**2 + complexParameter)
+            
+        for iterations in range(0, maxIterations): 
+            if abs(self.set[iterations])**2 > thresholdValue:
+                self.iterationsToThreshold = iterations
+                break
+    
+    def getIterationsToThreshold():
+        return iterationsToThreshold
+
+# Initialises a array like list of lists containing mathematical sets.
+# This will be a class, later on, that recieves a particular function.
+
+def class FractalSet(object):
+    
+    def __init__(self, minimum, maximum, step, initialParameter, thresholdValue, maxIterations):
+        
+        self.set = []
+        
+        for realComponent in range(minimum.real, maximum.real, step):
+            self.set.append([])
+            for imaginaryComponent in range(minimum.imag, maximum.imag, step):
+                self.set.append
+
+# Initialises an array-like list of lists containting the iterations to a threshold value for a particular complex parameter.
+
+def class FractalImage(object):
+
+    def __init__(self
+    
+    self.fractalImage = []
+    
+    for row in range(imageCenter.real-imageRowSize/2, imageCenter.real+imageRowSize/2):
+        self.fractalImage.sappend([])
+        for col in range(imageCenter.imag-imageColSize/2, imageCenter.imag+imageRowSize/2):
+            fractalImage[row][col].append(fractalSet[row][col].iterationsToThreshhold())
+    
+    # Plots the generated image.
+    
+    matplotlib.pyplot.imshow(fractalImage, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
+    matplotlib.pyplot.xlabel('Real Axis')
+    matplotlib.pyplot.ylabel('Imaginary Axis')
+    matplotlib.pyplot.title('Mandelbrot Fractal')
+
 def main():
     
     # Gets initial parameters for generation of the fractal image.
@@ -28,32 +82,21 @@ def main():
     
     # Gets more initial parameters for the generation of the fractal image.
     
-    iterations = int(input('To how many iterations should the fractal be generated: '))
+    maxIterations = int(input('To how many iterations should the fractal be generated: '))
     
     print('Generating image...')
     
-    # Initialises a array like list of lists containing mathematical sets.
-    # This will be a class, later on, that recieves a particular function.
-    
-    fractalSet = []
+    # Initialises a list of numbers in a mathematical set, given a funciton, initial parameter and iteration limit.
+        
     
     
     
-    # Initialises an array-like list of lists containing the last term of an  mathematical sets.
+
+    
+    
+    # Initialises an array-like list of lists containing the iterations to a threshold value for mathematical sets of varying complex parameters.
     # This will be class, later on, that recieves a fractal set object.
     
-    fractalImage = []
-    
-    for row in range(imageCenter.real-imageRowSize/2, imageCenter.real+imageRowSize/2):
-        fractalImage.append([])
-        for col in range(imageCenter.imag-imageColSize/2, imageCenter.imag+imageRowSize/2):
-            fractalImage[row][col].append(fractalSet[row][col].last())
-    
-    # Plots the generated image.
-    
-    matplotlib.pyplot.imshow(fractalImage, aspect=1.1, extent=(xvals.min(),xvals.max(),yvals.min(),yvals.max()))
-    matplotlib.pyplot.xlabel('Real Axis')
-    matplotlib.pyplot.ylabel('Imaginary Axis')
-    matplotlib.pyplot.title('Mandelbrot Fractal')
+
     
 main()
