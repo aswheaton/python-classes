@@ -10,6 +10,8 @@
     Updated: 14th February 2018
 """
 
+import cmath
+
 class MathematicalSet(object): 
     
     # Initialises a mathematical set in a list and an iterations to threshold attribute.
@@ -34,5 +36,5 @@ class MathematicalSet(object):
                 self.iterationsToThreshold = iterations
                 break
     
-    def getIterationsToThreshold():
+    def getIterationsToThreshold(self):
         return self.iterationsToThreshold
