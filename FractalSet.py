@@ -8,23 +8,31 @@
     Updated: 14th February 2018
 """
 
+import cmath
+
 from MathematicalSet import MathematicalSet
 
 class FractalSet(object):
 
     # Initialises a array like list of lists containing mathematical sets.
     
-    def __init__(self, minimum, maximum, step, initialParameter, thresholdValue, maxIterations):
+    def __init__(self, rowSize, colSize, minimum, maximum, initialParameter, thresholdValue, maxIterations):
         
         self.set = []
+
+        realComponent = minimum.real
+
+        step = ( (maximum.real - minimum.real) / rowSize ) + ( (maximum.imag - minimum.imag) / colSize ) * 1j
         
-        for realComponent in range(minimum.real, maximum.real, step.real):
+        for row in range(0, rowSize):
             self.set.append([])
-            for imaginaryComponent in range(minimum.imag, maximum.imag, step.imag):
-                self.set.append(MathematicalSet(initialParameter, realComponent + imaginaryComponent, thresholdValue, maxIterations))
-    
+            imaginaryComponent = minimum.imag
+            for col in range(0, colSize):
+                self.set[row].append(MathematicalSet(initialParameter, realComponent + imaginaryComponent, thresholdValue, maxIterations))
+                imaginaryComponent = imaginaryComponent + step.imag
+            realComponent = realComponent + step.real
+
     # Returns the array-like list of lists so that the mathematical set object elements may be accessed.
     
-    def getSet(self):
+    def getFractalSet(self):
         return self.set
-
