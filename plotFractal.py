@@ -5,7 +5,7 @@
 
     Author: Alexander S. Wheaton
     Date: 12th February 2018
-    Updated: 14th February 2018
+    Updated: 13th February 2018
 """
 
 import cmath
@@ -27,7 +27,7 @@ def main():
     
     # Permits the user to center the fractal image a particular coordinate in the complex plane. Defaults to (0, 0).
     
-    if input('Center image on the origin of the complex plane (y/n): ') == 'y':
+    if raw_input('Center image on the origin of the complex plane (y/n): ') == 'y':
         imageCenter = 0 + 0 * 1j
     else:
         realCenter = float(input('Real center coordinate: '))
@@ -42,11 +42,11 @@ def main():
     
     # Calculates the step size as a complex number.
 
-    step = (maximumComplexParameter - minimumComplexParameter) / (imageRowSize + imageColSize * 1j)
+    # step = (maximumComplexParameter - minimumComplexParameter) / (imageRowSize + imageColSize * 1j)
     
     # Generates a fractal set from the given parameters.
 
-    fractalSet = FractalSet(minimumComplexParameter, maximumComplexParameter, step, initialParameter, thresholdValue, maxIterations)
+    fractalSet = FractalSet(imageRowSize, imageColSize, minimumComplexParameter, maximumComplexParameter, initialParameter, thresholdValue, maxIterations)
     
     # Generates a fractal image object from the fractal set and displays it.
 
