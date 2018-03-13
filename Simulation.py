@@ -2,7 +2,7 @@
     Traffic simulation class object.
     Author: Alexander S. Wheaton
     Date: 06 March 2018
-    Updated: 06 March January 2018
+    Updated: 13 March January 2018
 """
 
 import random
@@ -64,14 +64,16 @@ class Simulation(object):
                     else:
                         nextIteration[col] = 1
         
+        # Makes sure the total number of cars isn't zero, and records the average velocity.
         if self.totalCars == 0:
             self.averageVelocities.append(0)
         else:
-            self.averageVelocities.append(carsMoved / self.totalCars)
-            
+            self.averageVelocities.append(float(carsMoved) / float(self.totalCars))
+        
+        # Records the next iteration of the traffic simulation to the array-like list of lists.
         self.simulation.append(nextIteration)
         
-    # Prints a visual representation of the array.    
+    # Prints a visual representation of the array to the console.
     def show(self):
     
         for row in range(len(self.simulation)):
@@ -90,6 +92,7 @@ class Simulation(object):
     # Returs the last velocity (steady-state velocity).
     def getLastVelocity(self):
         return self.averageVelocities[len(self.averageVelocities)-1]
-        
+    
+    # Returns the traffic density for a particular simulation.
     def getDensity(self):
-        return self.totalCars / self.roadLength
+        return float(self.totalCars) / float(self.roadLength)
