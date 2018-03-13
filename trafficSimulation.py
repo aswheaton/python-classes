@@ -39,13 +39,14 @@ def main():
             for i in range(iterations):
                 simulation.iterate()
             
-            listOfDensities.append(density)
+            listOfDensities.append(simulation.getDensity())
             listOfVelocities.append(simulation.getLastVelocity())
             
             density = density + densityStep
             
-            matplotlib.pyplot.imshow(simulation.getSimulation(), interpolation="none")
-            matplotlib.pyplot.show()
+            # These lines left for debugging purposes. Displays a graphic for each simulation.
+            # matplotlib.pyplot.imshow(simulation.getSimulation(), interpolation="none")
+            # matplotlib.pyplot.show()
         
         matplotlib.pyplot.plot(listOfDensities, listOfVelocities)
         matplotlib.pyplot.autoscale(enable=True, axis="both", tight=False)
