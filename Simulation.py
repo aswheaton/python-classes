@@ -37,7 +37,7 @@ class Simulation(object):
         carsMoved = 0
         
         for col in range(self.roadLength):
-            
+                       
             # Is there a car in the position?
             if self.simulation[len(self.simulation)-1][col] == 1:
                 # Is the position the in the last column?
@@ -90,3 +90,6 @@ class Simulation(object):
     # Returs the last velocity (steady-state velocity).
     def getLastVelocity(self):
         return self.averageVelocities[len(self.averageVelocities)-1]
+        
+    def getDensity(self):
+        return self.totalCars / self.roadLength
