@@ -2,6 +2,7 @@
     Test code for the Polynomial class.
     Author: Alexander S. Wheaton
     Date: 16 January 2018
+    Updated: 3 October 2018
 """
 
 from Polynomial import Polynomial
