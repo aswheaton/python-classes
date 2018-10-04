@@ -5,25 +5,30 @@
     Updated: 3 October 2018
 """
 
-class(object) MuonDecaySet(self):
+import numpy as np
 
-    def __init__(self, tau, size):
+class MuonDecaySet(object):
+
+    def __init__(self, tau, interval, size):
         
         self.dataset = []
         
         self.tau = tau
-        
+        self.interval = interval
         self.size = size
-    
+        
     def generateSet(self):
         
         for i in self.size:
-            randomX = numpy.random.uniform() * self.range
-            randomY = numpy.random.uniform()
+            randomX = np.random.uniform() * self.interval
+            randomY = np.random.uniform()
             if randomY <= (1/self.tau) * (exp(-randomX/self.tau)):
                 self.dataset.append(randomX)
         
     def writeToFile(self):
-    
-    def plotHistogram(self):
-    
+        
+        datafile = open('decaytimes.txt', 'w')
+        datafile.write(self.dataset)
+        
+    # def plotHistogram(self):
+        
