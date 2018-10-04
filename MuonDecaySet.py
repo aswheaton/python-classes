@@ -16,7 +16,13 @@ class(object) MuonDecaySet(self):
         self.size = size
     
     def generateSet(self):
-    
+        
+        for i in self.size:
+            randomX = numpy.random.uniform() * self.range
+            randomY = numpy.random.uniform()
+            if randomY <= (1/self.tau) * (exp(-randomX/self.tau)):
+                self.dataset.append(randomX)
+        
     def writeToFile(self):
     
     def plotHistogram(self):
