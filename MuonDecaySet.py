@@ -1,8 +1,8 @@
 """
     Dataset of simulated Muon decay times using the Monte Carlo technique.
     Author: Alexander S. Wheaton
-    Date: 3 October 2018
-    Updated: 3 October 2018
+    Date: 3rd October 2018
+    Updated: 4th October 2018
 """
 import math
 import numpy as np
@@ -17,11 +17,10 @@ class MuonDecaySet(object):
         self.tau = tau
         self.interval = interval
         self.size = size
-        self.randomYs = []
         
     def generateSet(self):
         
-        for i in range(0, self.size):
+        while len(self.dataset) < self.size:
             randomX = np.random.uniform() * self.interval
             randomY = np.random.uniform() * (1/self.tau)
             if randomY <= (1/self.tau) * (math.exp(-randomX/self.tau)):
