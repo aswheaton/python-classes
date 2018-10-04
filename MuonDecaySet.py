@@ -4,8 +4,9 @@
     Date: 3 October 2018
     Updated: 3 October 2018
 """
-
+import math
 import numpy as np
+import matplotlib.pylab as pl
 
 class MuonDecaySet(object):
 
@@ -16,19 +17,28 @@ class MuonDecaySet(object):
         self.tau = tau
         self.interval = interval
         self.size = size
+        self.randomYs = []
         
     def generateSet(self):
         
-        for i in self.size:
+        for i in range(0, self.size):
             randomX = np.random.uniform() * self.interval
-            randomY = np.random.uniform()
-            if randomY <= (1/self.tau) * (exp(-randomX/self.tau)):
+            randomY = np.random.uniform() * (1/self.tau)
+            if randomY <= (1/self.tau) * (math.exp(-randomX/self.tau)):
                 self.dataset.append(randomX)
+        
+    def printSet(self):
+        
+        print(self.dataset)
         
     def writeToFile(self):
         
         datafile = open('decaytimes.txt', 'w')
         datafile.write(self.dataset)
         
-    # def plotHistogram(self):
+    def plotHistogram(self):
+        
+        pl.hist(self.dataset[:], bins=100)
+        pl.savefig('outputHistogram.pdf')
+        pl.show()
         
