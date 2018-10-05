@@ -10,13 +10,22 @@ import matplotlib.pylab as pl
 
 class MuonDecaySet(object):
 
-    def __init__(self, tau, interval, size):
+    def __init__(self, **kwargs):
         
         self.dataset = []
         
-        self.tau = tau
-        self.interval = interval
-        self.size = size
+        if kwargs.get('set') == True:
+            
+            inputDataset = kwargs.get('dataset')
+            
+            for row in inputDataset:
+                for col in inputDataset[row]:
+                    self.dataset.append(inputDataset[row][col])
+        
+        else:
+            self.tau = kwargs.get('tau')
+            self.interval = kwargs.get('interval')
+            self.size = kwargs.get('size')
         
     def generateSet(self):
         
@@ -26,18 +35,18 @@ class MuonDecaySet(object):
             if randomY <= (1/self.tau) * (math.exp(-randomX/self.tau)):
                 self.dataset.append(randomX)
         
-    def printSet(self):
+    def getDataset(self):
         
-        print(self.dataset)
+        return(self.dataset)
         
     def writeToFile(self):
         
         datafile = open('decaytimes.txt', 'w')
         datafile.write(self.dataset)
         
-    def plotHistogram(self):
+    def plotHistogram(self, bins):
         
-        pl.hist(self.dataset[:], bins=100)
+        pl.hist(self.dataset[:], bins=bins)
         pl.savefig('outputHistogram.pdf')
         pl.show()
         

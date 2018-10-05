@@ -10,10 +10,9 @@ from MuonDecaySet import MuonDecaySet
 def main():
     tau = float(2.2e-6) #float(input('Enter the half-life of the particle: '))
     interval = float(100.0e-6) #float(input('Longest decay time to record: '))
-    size = 500000 #int(input('Number of particles to simulate: '))
-    muons = MuonDecaySet(tau, interval, size)
+    size = 1000 #int(input('Number of particles to simulate: '))
+    muons = MuonDecaySet(tau=tau, interval=interval, size=size)
     muons.generateSet()
-    muons.printSet()
-    muons.plotHistogram()
+    muons.plotHistogram(100)
 
 main()
