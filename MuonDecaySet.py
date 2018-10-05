@@ -18,8 +18,8 @@ class MuonDecaySet(object):
             
             inputDataset = kwargs.get('dataset')
             
-            for row in inputDataset:
-                for col in inputDataset[row]:
+            for row in range(length(inputDataset)):
+                for col in range(length(inputDataset[row])):
                     self.dataset.append(inputDataset[row][col])
         
         else:

@@ -15,4 +15,15 @@ def main():
     muons.generateSet()
     muons.plotHistogram(100)
 
+
+    combinedDataset = []
+
+    for i in range(input('Number of experiments to run: ')):
+        muons = MuonDecaySet(tau=tau, interval=interval, size=size)
+        muons.generateSet()
+        combinedDataset.append(muons.getDataset())
+
+    combinedMuons = MuonDecaySet(set=True, dataset=combinedDataset)
+    combinedMuons.plotHistogram()
+
 main()
