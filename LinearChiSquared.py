@@ -6,7 +6,7 @@
 """
 
 import numpy as np
-import pyplot as plt
+import matplotlib.pyplot as plt
 from iminuit import Minuit
 
 class LinearChiSquared(object):
@@ -19,26 +19,37 @@ class LinearChiSquared(object):
         self.y = data[:,1]
         self.e = data[:,2]
         
-        self.slope = slope
-        self.intercept = intercept
+    def getChiSquared(self, m, c):
+
+        """
+            Method used by Minuit object to get values of chi-squared.
+        """
         
-    def getChiSquared(self, slope, intercept):
-        
-        chiSquared = np.sum((self.y - (slope * self.x + intercept)) / 2.0)**2.0
+        chiSquared = np.sum(((self.y - (m * self.x + c)) / 2.0)**2.0)
         return chiSquared
         
-    def minimisedChiSquared(self):
-            
-        minimisation = Minuit(self.getChiSquared, m=1, c=1, errordef = 1)
-        self.minimumChiSquared, self.optParameters = minimisation.migrad()
-        minimisation.minos()
+    def minimiseChiSquared(self):
         
-        minimisation.print_param()
+        """
+            Minimises chi-squared for a given object method and determines
+            the minimising parameters: m and c.
+        """
         
+        # Initialises a Minuit object for the dataset and calculates the minimim
+        # chi-squared, associated parameters, and errors.
+        m = Minuit(self.getChiSquared, print_level=0, pedantic=False)
+        minChiSquared, parameters = m.migrad()
+        m.minos()
+        
+        # Outputs the calculated parameters to the console.
+        m.print_param()
+        
+        # Generates a plot for the varying of the parameter 'm'.        
         plt.figure()
-        minimisation.draw_mnprofile('c')
-        c, fa = minimisation.profile('c')
-        
+        m.draw_profile('m')
+        c, fa = m.profile('m')
+
+        # Generates a plot for the varying of the parameter 'c'.
         plt.figure()
-        minimisation.draw_mnprofile('m')
-        c, fa = minimisation.profile('m')
+        m.draw_profile('c')
+        c, fa = m.profile('c')
