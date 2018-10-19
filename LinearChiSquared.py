@@ -6,6 +6,7 @@
 """
 
 import numpy as np
+import pyplot as plt
 from iminuit import Minuit
 
 class LinearChiSquared(object):
@@ -32,4 +33,12 @@ class LinearChiSquared(object):
         self.minimumChiSquared, self.optParameters = minimisation.migrad()
         minimisation.minos()
         
-        minimisation = m.draw_mnprofile('y')
+        minimisation.print_param()
+        
+        plt.figure()
+        minimisation.draw_mnprofile('c')
+        c, fa = minimisation.profile('c')
+        
+        plt.figure()
+        minimisation.draw_mnprofile('m')
+        c, fa = minimisation.profile('m')
