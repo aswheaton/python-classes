@@ -46,7 +46,7 @@ class ChargeDistribution:
         z = (x-x0)/(x1-x0)
         return (z**2)* (math.exp(1-z)-1.) / 0.18
     
-    def _get( self, start=-2, end=2., n=50 ):
+    def _get( self, start=-2, end=2., n=1000 ):
         xvalues= []
         yvalues = []
         dx = (end-start)/n
