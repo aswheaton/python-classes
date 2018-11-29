@@ -5,11 +5,8 @@
     Updated: 27th November 2018
 """
 
-import math
 import numpy as np
 import matplotlib.pylab as pl
-
-from PDF import PDF
 
 class DecaySet(object):
 
@@ -17,30 +14,55 @@ class DecaySet(object):
         
         """
             Decay event dataset object. Either loads a dataset from a file or generates one from parameters.
-            Syntax: variable = DecaySet(load=True,datafile=filename.txt)
+            Syntax: variable = DecaySet(load=True,filename=filename.txt,column=int)
         """
 
         if kwargs.get('load') == True:
-            self.dataset = np.loadtext(open(kwargs.get('datafile'),'r'))
+            try:
+                self.dataset = np.loadtxt(open(kwargs.get('filename'),'r'))[:,kwargs.get('column')-1]
+            except NameError:
+                self.dataset = np.loadtxt(open(kwargs.get('filename'),'r'))
         
-    def generateSet(self, timeInterval, thetaInterval, **kwargs):
+    def generateSet(self, maxTime, maxTheta, **kwargs):
         
         """
             Generates a data set from given parameters and given probability density functions.
-            Syntax variable.generateSet(
+            Syntax variable.generateSet(time
         """
         
         self.dataset = np.zeros((kwargs.get('size'),3))
         
         for row in range(kwargs.get('size')):
+
+            print('Generating ' + str(row) + ' of ' + str(kwargs.get('size')) + ' data points...\r'),
+            
             while True:
-                time = np.random.uniform() * timeInterval
-                theta = np.random.uniform() * thetaInterval
-                probability = PDF(time, theta, kwargs.get('tau1'), kwargs.get('tau2'), kwargs.get('frac'))
-                if  probability < np.random.uniform() * kwargs.get('pdfMax'):
+                
+                time = np.random.uniform() * maxTime
+                theta = np.random.uniform() * maxTheta
+                probability = kwargs.get('function')(time, theta, **kwargs)
+                
+                if np.random.uniform() * kwargs.get('pdfMax') < probability:
                     self.dataset[row][0], self.dataset[row][1], self.dataset[row][2] = time, theta, probability
                     break
                 
+    def get(self):
+        
+        """
+            Returns a numpy array of the dataset.
+        """
+        
+        return(self.dataset)
+        
+    def show(self):
+        
+        """
+            Prints the dataset, if it exists, to the console.
+        """
+        
+        if len(self.dataset) != 0:
+            print(self.dataset)
+
     def write(self, filename):
         
         """
@@ -55,7 +77,7 @@ class DecaySet(object):
     def plotHistogram(self, bins, **kwargs):
         
         """
-            Plots the histogram of different 
+            Plots the histogram of different observables in the dataset.
         """
         
         pl.figure()
