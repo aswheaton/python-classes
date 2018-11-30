@@ -18,10 +18,9 @@ class DecaySet(object):
         """
 
         if kwargs.get('load') == True:
-            try:
-                self.dataset = np.loadtxt(open(kwargs.get('filename'),'r'))[:,kwargs.get('column')-1]
-            except NameError:
-                self.dataset = np.loadtxt(open(kwargs.get('filename'),'r'))
+            self.dataset = np.loadtxt(open(kwargs.get('filename'),'r'))
+            if 'column' in kwargs:
+                self.dataset = self.dataset[:,kwargs.get('column')-1]
         
     def generateSet(self, maxTime, maxTheta, **kwargs):
         

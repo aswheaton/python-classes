@@ -41,8 +41,14 @@ def main():
     #dataset1.plotHistogram(100, write=False)
     
     dataset2 = DecaySet(load=True, filename='datafile-Xdecay.txt', column=1)
-    fit = ParameterFit(dataset2.get())
-    tau1, tau2, frac = fit.maxLikelihood(function=PDF_t, tau1=1.0, tau2=2.0, frac=0.5, limit_tau1=(0.001,10), limit_tau2=(0.001,10), limit_frac=(0,1), errordef=0.5, pedantic=False)
+    paramFit = ParameterFit(dataset=dataset2.get(), function=PDF_t)
+    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_tau1=(0.001,10), limit_tau2=(0.001,10), limit_frac=(0,1), errordef=0.5, pedantic=False)
+    print('The fitted parameters are tau1={}, tau2={}, frac={}'.format(tau1, tau2, frac))
+
+    dataset3 = DecaySet(load=True, filename='datafile-Xdecay.txt')
+    paramFit = ParameterFit(dataset=dataset3.get(), function=PDF)
+    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_tau1=(0.001,10), limit_tau2=(0.001,10), limit_frac=(0,1), errordef=0.5, pedantic=False)
+    print('The fitted parameters are tau1={}, tau2={}, frac={}'.format(tau1, tau2, frac))
 
 main()
 
