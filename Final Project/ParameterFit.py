@@ -34,8 +34,7 @@ class ParameterFit(object):
             This method is not intended for use other than by the object.
             Calculates and returns the value of the negative log likelihood for the dataset.
         """
-        print(kwargs)
-        NLL = -np.sum(np.log(kwargs.get('function')(**kwargs)))
+        NLL = -np.sum(np.log(self.function(**kwargs)))
 
         return(NLL)
    
@@ -50,8 +49,10 @@ class ParameterFit(object):
         """
             Parameter estimation using the maximum likelihood method.
         """
-        print(kwargs.iteritems())
-        m = Minuit(self.negLogLikelihood, kwargs.iteritems())
+
+        self.function = kwargs.get('function')      
+
+        m = Minuit(self.negLogLikelihood, kwargs)
         fmin, param = m.migrad()        
         return(param)
 
