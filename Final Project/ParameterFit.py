@@ -28,7 +28,7 @@ class ParameterFit(object):
             Calculates and returns the value of chi-squared for the dataset.
         """
 
-    def negLogLikelihood(self, tau1, tau2, frac, **kwargs):
+    def NLL(self, tau1, tau2, frac):
         
         """
             This method is not intended for use other than by the object.
@@ -53,19 +53,34 @@ class ParameterFit(object):
             Parameter estimation using the maximum likelihood method.
         """
 
-        m = Minuit(self.negLogLikelihood, **kwargs)
-        fmin, param = m.migrad()
-        return(m.values[0], m.values[1], m.values[2])
+        self.m = Minuit(self.NLL, **kwargs)
+        fmin, param = self.m.migrad()
+        return(self.m.values[0], self.m.values[1], self.m.values[2])
+        
+    def simpleErrors(self, **kwargs):
+        
+        """
+            Returns the simple errors of parameters passed to the method.
+        """
+        
+        # Create list of the minimised parameters from Minuit's "dictionary-like" object.
+        minParams = [self.m.values[0], self.m.values[1], self.m.values[2]]
+        # Create empty list for storing the calculated errors.
+        errors = []
 
+        for i in range(len(minParams)):
+            # Create (or reset) list of varying parameters from Minuit's "dictionary-like" object.            
+            varParams = minParams
+            # Vary the currently selected parameter until the NLL > 0.5 then store the parameter.
+            print('Minimising ' + str(i) + ' of ' + str(len(minParams)) + ' parameters...\r')
+            while self.NLL(*varParams) - self.NLL(*minParams) < 0.5:
+                varParams[i] += kwargs.get('step')
+            errors.append(varParams[i])
 
-
-
-
-
-
-
-
-
-
-
-
+        return(tuple(errors))
+        
+    def properErrors(self):
+        
+        """
+            Returns the proper errors of parameters passed to the method.
+        """
