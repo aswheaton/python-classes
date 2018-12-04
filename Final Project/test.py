@@ -6,7 +6,7 @@
 """
 
 from DecaySet import DecaySet
-from ParameterFit import ParameterFit
+from ParamFit import ParamFit
 
 import numpy as np
 
@@ -41,16 +41,26 @@ def main():
     dataset1.plotHistogram(100, write=False)
     
     dataset2 = DecaySet(load=True, filename='datafile-Xdecay.txt', column=1)
-    paramFit = ParameterFit(dataset=dataset2.get(), function=PDF_t)
-    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_tau1=(0.001,10), limit_tau2=(0.001,10), limit_frac=(0,1), errordef=0.5, pedantic=False)
+    paramFit = ParamFit(dataset=dataset2.get(), function=PDF_t)
+    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_frac=(0,1), errordef=0.5, pedantic=False) 
     tau1_err, tau2_err, frac_err = paramFit.simpleErrors(step=0.001)
-    print('The fitted parameters are tau1={}+/-{}, tau2={}+/-{}, frac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+    
+    print('The fitted parameters with simple errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+
+    tau1_err, tau2_err, frac_err = paramFit.properErrors(step=0.001)
+
+    print('The fitted parameters with proper errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
 
     dataset3 = DecaySet(load=True, filename='datafile-Xdecay.txt')
-    paramFit = ParameterFit(dataset=dataset3.get(), function=PDF)
-    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_tau1=(0.01,10), limit_tau2=(0.001,10), limit_frac=(0,1), errordef=0.5, pedantic=False)
+    paramFit = ParamFit(dataset=dataset3.get(), function=PDF)
+    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_frac=(0,1), errordef=0.5, pedantic=False)
     tau1_err, tau2_err, frac_err = paramFit.simpleErrors(step=0.001)
-    print('The fitted parameters are tau1={}+/-{}, tau2={}+/-{}, frac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+
+    print('The fitted parameters with simple errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+    
+    tau1_err, tau2_err, frac_err = paramFit.properErrors(step=0.001)
+
+    print('The fitted parameters with proper errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
 
 main()
 
