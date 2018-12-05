@@ -2,7 +2,7 @@
     Test code for the Numerical Recipes final project.
     Author: Alexander S. Wheaton
     Date: 27th November 2018
-    Updated: 27th November 2018
+    Updated: 30th November 2018
 """
 
 from DecaySet import DecaySet
@@ -42,25 +42,25 @@ def main():
     
     dataset2 = DecaySet(load=True, filename='datafile-Xdecay.txt', column=1)
     paramFit = ParamFit(dataset=dataset2.get(), function=PDF_t)
-    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_frac=(0,1), errordef=0.5, pedantic=False) 
-    tau1_err, tau2_err, frac_err = paramFit.simpleErrors(step=0.001)
+    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_frac=(0,1), print_level=-1, errordef=0.5, pedantic=False) 
+    tau1_err, tau2_err, frac_err = paramFit.simpleErrors(step=0.0001)
     
-    print('The fitted parameters with simple errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+    print('\nThe fitted parameters for time data with simple errors are: \ntau1={}+/-{} \ntau2={}+/-{} \nfrac={}+/-{}\n'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
 
-    tau1_err, tau2_err, frac_err = paramFit.properErrors(step=0.001)
+    tau1_err, tau2_err, frac_err = paramFit.properErrors(step=0.0001)
 
-    print('The fitted parameters with proper errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+    print('\nThe fitted parameters for time data with proper errors are: \ntau1={}+/-{} \ntau2={}+/-{} \nfrac={}+/-{}\n'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
 
     dataset3 = DecaySet(load=True, filename='datafile-Xdecay.txt')
     paramFit = ParamFit(dataset=dataset3.get(), function=PDF)
-    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_frac=(0,1), errordef=0.5, pedantic=False)
-    tau1_err, tau2_err, frac_err = paramFit.simpleErrors(step=0.001)
+    tau1, tau2, frac = paramFit.maxLikelihood(tau1=1.0, tau2=2.0, frac=0.5, limit_frac=(0,1), print_level=-1, errordef=0.5, pedantic=False)
+    tau1_err, tau2_err, frac_err = paramFit.simpleErrors(step=0.0001)
 
-    print('The fitted parameters with simple errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+    print('\nThe fitted parameters for time and theta data with simple errors are: \ntau1={}+/-{} \ntau2={}+/-{} \nfrac={}+/-{}\n'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
     
-    tau1_err, tau2_err, frac_err = paramFit.properErrors(step=0.001)
+    tau1_err, tau2_err, frac_err = paramFit.properErrors(step=0.0001)
 
-    print('The fitted parameters with proper errors are: \ntau1={}+/-{}, \ntau2={}+/-{}, \nfrac={}+/-{}'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
+    print('\nThe fitted parameters for time and theta data with proper errors are: \ntau1={}+/-{} \ntau2={}+/-{} \nfrac={}+/-{}\n'.format(tau1, tau1_err, tau2, tau2_err, frac, frac_err))
 
 main()
 

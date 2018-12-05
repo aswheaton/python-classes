@@ -2,7 +2,7 @@
     Class for generating datasets from a given PDF using various Monte Carlo methods.
     Author: Alexander S. Wheaton
     Date: 27th November 2018
-    Updated: 27th November 2018
+    Updated: 30th November 2018
 """
 
 import numpy as np
@@ -33,7 +33,7 @@ class DecaySet(object):
         
         for row in range(kwargs.get('size')):
 
-            print('Generating ' + str(row) + ' of ' + str(kwargs.get('size')) + ' data points...\r'),
+            print('Generating {} of {} data points...\r'.format(row, kwargs.get('size') )),
             
             while True:
                 
@@ -44,7 +44,8 @@ class DecaySet(object):
                 if np.random.uniform() * kwargs.get('pdfMax') < probability:
                     self.dataset[row][0], self.dataset[row][1], self.dataset[row][2] = time, theta, probability
                     break
-                
+        print('\n')
+        
     def get(self):
         
         """

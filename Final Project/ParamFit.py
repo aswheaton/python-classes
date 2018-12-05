@@ -2,7 +2,7 @@
     N-parameter fitting object using various methods.
     Author: Alexander S. Wheaton
     Date: 29th November 2018
-    Updated: 29th november 2018
+    Updated: 30th november 2018
 """
 
 from iminuit import Minuit
@@ -58,10 +58,11 @@ class ParamFit(object):
             # Create (or reset) list of varying parameters from Minuit's "dictionary-like" object.            
             varParams = [self.m.values[0], self.m.values[1], self.m.values[2]]
             # Vary the currently selected parameter until the NLL > 0.5 then store the parameter.
-            while (self.NLL(*varParams) - self.NLL(*minParams)) < 0.5:
+            print('Finding simple errors for {} of {} parameters...\r'.format(i+1, len(minParams))),
+            while self.NLL(*varParams) - self.NLL(*minParams) < 0.5:
                 varParams[i] += kwargs.get('step')
             errors.append(varParams[i] - minParams[i])
-
+        print('\n'),
         return(tuple(errors))
         
     def properErrors(self, **kwargs):
@@ -79,22 +80,25 @@ class ParamFit(object):
             # Create (or reset) list of varying parameters from Minuit's "dictionary-like" object.            
             varParams = [self.m.values[0], self.m.values[1], self.m.values[2]]
             # Vary the currently selected parameter and reminimise until the NLL > 0.5 then store the parameter.
+            print('Finding proper errors for {} of {} parameters:'.format(i+1, len(minParams)))
+            
             while (self.NLL(*varParams) - self.NLL(*minParams)) < 0.5:
                 # Increments the varying parameter by the step.
                 varParams[i] += kwargs.get('step')
                 # Re-minimises the NLL with the incremented parameter fixed.
                 if i == 0:
-                    m = Minuit(self.NLL, tau1=varParams[i], tau2=2.0, frac=0.5, limit_frac=(0,1), errordef=0.5, pedantic=False, fix_tau1=True)     
+                    m = Minuit(self.NLL, tau1=varParams[i], tau2=2.0, frac=0.5, limit_frac=(0,1), print_level=-1, errordef=0.5, pedantic=False, fix_tau1=True)     
                 if i == 1:
-                    m = Minuit(self.NLL, tau1=1.0, tau2=varParams[i], frac=0.5, limit_frac=(0,1), errordef=0.5, pedantic=False, fix_tau2=True)
+                    m = Minuit(self.NLL, tau1=1.0, tau2=varParams[i], frac=0.5, limit_frac=(0,1), print_level=-1, errordef=0.5, pedantic=False, fix_tau2=True)
                 if i == 2:
-                    m = Minuit(self.NLL, tau1=1.0, tau2=2.0, frac=varParams[i], limit_frac=(0,1), errordef=0.5, pedantic=False, fix_frac=True)           
+                    m = Minuit(self.NLL, tau1=1.0, tau2=2.0, frac=varParams[i], limit_frac=(0,1), print_level=-1, errordef=0.5, pedantic=False, fix_frac=True)           
                 fmin, param = m.migrad()
                 # Replaces the other parameters with re-minimised ones before the condition is checked again.
                 for j in range(len(varParams)):
                     if i != j:
                         varParams[j] = m.values[j]
-                        
+                print('Trying parameters {}...\r'.format(varParams)),
+            print('\n'),
             errors.append(varParams[i] - minParams[i])
-
+        print('\n'),
         return(tuple(errors))
