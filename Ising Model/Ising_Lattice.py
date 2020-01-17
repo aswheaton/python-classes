@@ -1,7 +1,8 @@
 #! usr/bin/env/python
 
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
 
 class Ising_Lattice(object):
     """
@@ -22,9 +23,11 @@ class Ising_Lattice(object):
 
     def build(self):
         if self.mode == "r":
-            self.lattice = np.random.random_integers(0, high=1, size=self.size)
-        if self.mode == "m":
+            self.lattice = np.random.choice(a=[-1,1], size=self.size)
+        if self.mode == "h":
             self.lattice = np.ones(self.size, dtype=int)
+        if self.mode == "l":
+            self.lattice = - np.ones(self.size, dtype=int)
 
     def bc(self, indices):
         """
@@ -32,40 +35,67 @@ class Ising_Lattice(object):
             lattice and if so, applies a periodic (toroidal) boundary condition
             to return new indices.
         """
-        if indices[0] < self.size[0]:
+        if indices[0] < 0:
             n = self.size[0] - 1
-        if indices[0] > self.size[0]:
+        if indices[0] > self.size[0] - 1:
             n = 0
-        if indices[1] < self.size[1]:
+        if indices[1] < 0:
             m = self.size[1] - 1
-        if indices[1] > self.size[1]:
+        if indices[1] > self.size[1] - 1:
             m = 0
-        return((n,m))
+        try:
+            return((n,m))
+        except UnboundLocalError:
+            return(indices)
 
-    def energy(self, indices):
+    def delta_energy(self, indices):
         """
-            Calculates and returns the energy of a given lattice site (n,m) due
-            to spin interaction with its neighbors. Energy given by:
+            Calculates and returns the change in energy from flipping a given
+            of a given lattice site (n,m) due to spin interaction with its
+            neighbors. Change in energy given by:
+
             E = - S_n,m * (S_n+1,m + Sn-1,m + S_n,m-1, + S_n,m+1)
-        """
-        energy = -2 * self.lattice[n,m] *
-                    (self.lattice[self.bc(n-1, m)]
-                    + self.lattice[self.bc(n+1,m)]
-                    + self.lattice[self.bc(n, m-1)]
-                    + self.lattice[self.bc(n, m+1)]
-                    )
-        return(energy)
 
-    def step(self):
+            Four other lattice points enter this expression.
+        """
+
+        n, m = indices
+        delta_energy = -2 * self.lattice[n,m] * (
+                    self.lattice[self.bc((n-1, m))]
+                    + self.lattice[self.bc((n+1,m))]
+                    + self.lattice[self.bc((n, m-1))]
+                    + self.lattice[self.bc((n, m+1))]
+                    )
+        return(delta_energy)
+
+    def attempt_flip(self):
         """
             Randomly chooses a site on the lattice and tries to flip it.
         """
-        indices = np.random.randint(0, self.size, 2)
-        if self.energy(indices) <= 0.0:
-            self.system[indices] *= -1
-        elif np.exp(-self.energy(indices) / self.T) > np.random.rand():
-            self.system[indices] *= -1
+        indices = (np.random.randint(0, self.size[0]), np.random.randint(0, self.size[1]))
+        if self.delta_energy(indices) <= 0.0:
+            self.lattice[indices] *= -1
+        elif np.random.rand() < np.exp(-self.delta_energy(indices) / self.temp):
+            self.lattice[indices] *= -1
 
-    def run(self):
-        ani = animation.FuncAnimation(fig, self.step, self.lattice, blit=True, interval=10, repeat=False, init_func=init)
+    def animate(self, *args):
+        self.attempt_flip()
+        self.image.set_array(self.lattice)
+        return(self.image,)
+
+    def run(self, **kwargs):
+
+        max_iter = kwargs.get("max_iter")
+
+        self.figure = plt.figure()
+        self.image = plt.imshow(self.lattice, animated=True)
+
+        self.animation = animation.FuncAnimation(self.figure,self.animate,frames=max_iter,repeat=False,interval=20,blit=True)
         plt.show()
+
+    def exportAnimation(self, filename, dotsPerInch):
+        """
+        Exports the animation to a .gif file without compression. (Linux
+        distributions with package "imagemagick" only. Files can be large!)
+        """
+        self.animation.save(filename, dpi=dotsPerInch, writer="imagemagick")

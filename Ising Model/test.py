@@ -1,3 +1,7 @@
 from Ising_Lattice import Ising_Lattice
-lattice = Ising_Lattice(temperature=1.5, size=[5,5], mode="r", animate=False)
-print(lattice.lattice)
+import matplotlib.pyplot as plt
+
+lattice = Ising_Lattice(temperature=1.5, size=(100,100), mode="r", animate=False)
+lattice.run(max_iter=1000)
+# plt.imshow(lattice.lattice)
+# plt.show()
