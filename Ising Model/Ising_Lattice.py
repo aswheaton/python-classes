@@ -35,18 +35,19 @@ class Ising_Lattice(object):
             lattice and if so, applies a periodic (toroidal) boundary condition
             to return new indices.
         """
-        if indices[0] < 0:
-            n = self.size[0] - 1
-        if indices[0] > self.size[0] - 1:
-            n = 0
-        if indices[1] < 0:
-            m = self.size[1] - 1
-        if indices[1] > self.size[1] - 1:
-            m = 0
-        try:
-            return((n,m))
-        except UnboundLocalError:
-            return(indices)
+        # if indices[0] < 0:
+        #     n = self.size[0] - 1
+        # if indices[0] > self.size[0] - 1:
+        #     n = 0
+        # if indices[1] < 0:
+        #     m = self.size[1] - 1
+        # if indices[1] > self.size[1] - 1:
+        #     m = 0
+        # try:
+        #     return((n,m))
+        # except UnboundLocalError:
+        #     return(indices)
+        return((indices[0]%self.size[0], indices[1]%self.size[1]))
 
     def delta_energy(self, indices):
         """
@@ -60,7 +61,7 @@ class Ising_Lattice(object):
         """
 
         n, m = indices
-        delta_energy = -2 * self.lattice[n,m] * (
+        delta_energy = 2 * self.lattice[n,m] * (
                     self.lattice[self.bc((n-1, m))]
                     + self.lattice[self.bc((n+1,m))]
                     + self.lattice[self.bc((n, m-1))]
@@ -90,7 +91,7 @@ class Ising_Lattice(object):
         self.figure = plt.figure()
         self.image = plt.imshow(self.lattice, animated=True)
 
-        self.animation = animation.FuncAnimation(self.figure,self.animate,frames=max_iter,repeat=False,interval=20,blit=True)
+        self.animation = animation.FuncAnimation(self.figure,self.animate,frames=max_iter,repeat=False,interval=0.001,blit=True)
         plt.show()
 
     def exportAnimation(self, filename, dotsPerInch):
