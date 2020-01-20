@@ -22,6 +22,10 @@ class Ising_Lattice(object):
         self.build()
 
     def build(self):
+        """
+            Creates a new class attribute of type ndarray and fills it with spin
+            values, depending on the user specified mode.
+        """
         if self.mode == "r":
             self.lattice = np.random.choice(a=[-1,1], size=self.size)
         if self.mode == "h":
@@ -75,8 +79,11 @@ class Ising_Lattice(object):
     def attempt_flip(self):
         """
             Randomly chooses a site on the lattice and tries to flip it.
+            # TODO: Make line wrapping PEP8 compliant, here.
         """
-        indices = (np.random.randint(0, self.size[0]), np.random.randint(0, self.size[1]))
+        indices = (np.random.randint(0, self.size[0]),
+                    np.random.randint(0, self.size[1])
+                    )
         if self.delta_energy(indices) <= 0.0:
             self.lattice[indices] *= -1
         elif np.random.rand() < np.exp(-self.delta_energy(indices) / self.temp):
@@ -109,7 +116,10 @@ class Ising_Lattice(object):
         self.figure = plt.figure()
         self.image = plt.imshow(self.lattice, animated=True)
 
-        self.animation = animation.FuncAnimation(self.figure,self.animate,frames=max_iter,repeat=False,interval=50,blit=True)
+        # TODO: Make line wrapping PEP8 compliant, here.
+        self.animation = animation.FuncAnimation(self.figure, self.animate,
+                                frames=max_iter, repeat=False, interval=50, blit=True
+                                )
         plt.show()
 
     def exportAnimation(self, filename, dotsPerInch):
