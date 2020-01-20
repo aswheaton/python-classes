@@ -39,19 +39,6 @@ class Ising_Lattice(object):
             lattice and if so, applies a periodic (toroidal) boundary condition
             to return new indices.
         """
-        # DEPRECATED: Old and inefficient boundary condition calculation.
-        # if indices[0] < 0:
-        #     n = self.size[0] - 1
-        # if indices[0] > self.size[0] - 1:
-        #     n = 0
-        # if indices[1] < 0:
-        #     m = self.size[1] - 1
-        # if indices[1] > self.size[1] - 1:
-        #     m = 0
-        # try:
-        #     return((n,m))
-        # except UnboundLocalError:
-        #     return(indices)
         return((indices[0]%self.size[0], indices[1]%self.size[1]))
 
     def delta_energy(self, indices):
@@ -65,7 +52,6 @@ class Ising_Lattice(object):
             Four other lattice points enter this expression.
             # TODO: Verify this calculation!
         """
-
         n, m = indices
         # TODO: Make line wrapping PEP8 compliant, here.
         delta_energy = 2 * self.lattice[n,m] * (
@@ -97,6 +83,7 @@ class Ising_Lattice(object):
             indices_j = (np.random.randint(0, self.size[0]),
                         np.random.randint(0, self.size[1])
                         )
+
             if self.lattice[indices_i] == -self.lattice[indices_j]:
                 self.lattice[indices_i] *= -1
                 self.lattice[indices_j] *= -1
@@ -131,8 +118,9 @@ class Ising_Lattice(object):
 
         # TODO: Make line wrapping PEP8 compliant, here.
         self.animation = animation.FuncAnimation(self.figure, self.animate,
-                                frames=max_iter, repeat=False, interval=50, blit=True
-                                )
+                                                frames=max_iter, repeat=False,
+                                                interval=50, blit=True
+                                                )
         plt.show()
 
     def exportAnimation(self, filename, dotsPerInch):
