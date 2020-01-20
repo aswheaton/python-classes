@@ -81,13 +81,25 @@ class Ising_Lattice(object):
             Randomly chooses a site on the lattice and tries to flip it.
             # TODO: Make line wrapping PEP8 compliant, here.
         """
-        indices = (np.random.randint(0, self.size[0]),
-                    np.random.randint(0, self.size[1])
-                    )
-        if self.delta_energy(indices) <= 0.0:
-            self.lattice[indices] *= -1
-        elif np.random.rand() < np.exp(-self.delta_energy(indices) / self.temp):
-            self.lattice[indices] *= -1
+        if self.dyn == "glauber":
+            indices = (np.random.randint(0, self.size[0]),
+                        np.random.randint(0, self.size[1])
+                        )
+            if self.delta_energy(indices) <= 0.0:
+                self.lattice[indices] *= -1
+            elif np.random.rand() < np.exp(-self.delta_energy(indices) / self.temp):
+                self.lattice[indices] *= -1
+
+        elif self.dyn == "kawasaki":
+            indices_i = (np.random.randint(0, self.size[0]),
+                        np.random.randint(0, self.size[1])
+                        )
+            indices_j = (np.random.randint(0, self.size[0]),
+                        np.random.randint(0, self.size[1])
+                        )
+            if self.lattice[indices_i] == -self.lattice[indices_j]:
+                self.lattice[indices_i] *= -1
+                self.lattice[indices_j] *= -1
 
     def animate(self, *args):
         """
@@ -111,6 +123,7 @@ class Ising_Lattice(object):
             the user by a factor of 10^3 due to the way animate() method works.)
         """
 
+        self.dyn = kwargs.get("dynamic")
         max_iter = kwargs.get("max_iter")
 
         self.figure = plt.figure()
