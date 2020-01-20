@@ -10,7 +10,7 @@ class Ising_Lattice(object):
 
         temperature = Float, the temperature of the lattice.
         size        = Tuple, the size of the lattice (n,m).
-        mode        = String, can be "r" for random mode or "m".
+        mode        = String, can be "r" for random mode, "l" or "h".
         animate     = Boolean, whether or not to animate the simulation.
     """
 
@@ -35,6 +35,7 @@ class Ising_Lattice(object):
             lattice and if so, applies a periodic (toroidal) boundary condition
             to return new indices.
         """
+        # DEPRECATED: Old and inefficient boundary condition calculation.
         # if indices[0] < 0:
         #     n = self.size[0] - 1
         # if indices[0] > self.size[0] - 1:
@@ -58,9 +59,11 @@ class Ising_Lattice(object):
             E = - S_n,m * (S_n+1,m + Sn-1,m + S_n,m-1, + S_n,m+1)
 
             Four other lattice points enter this expression.
+            # TODO: Verify this calculation!
         """
 
         n, m = indices
+        # TODO: Make line wrapping PEP8 compliant, here.
         delta_energy = 2 * self.lattice[n,m] * (
                     self.lattice[self.bc((n-1, m))]
                     + self.lattice[self.bc((n+1,m))]
@@ -80,23 +83,40 @@ class Ising_Lattice(object):
             self.lattice[indices] *= -1
 
     def animate(self, *args):
-        self.attempt_flip()
+        """
+            Steps the simulation forward by attempting 1000 spin flips.
+            Takes *args for call by animation.FuncAnimation instance.
+            # TODO: Make make number of attempted spin flips configurable!
+            # TODO: Determine the purpose of the trailing comma in return().
+        """
+        for i in range(1000):
+            self.attempt_flip()
         self.image.set_array(self.lattice)
         return(self.image,)
 
     def run(self, **kwargs):
+        """
+            Sets up a figure, image, and FuncAnimation instance, then runs the
+            simulation to the specified maximum number of iterations.
+            # TODO: Utilise the Boolean animate attribute here, and implement datafile output.
+            # TODO: Make the number of Metropolis trials more understandable.
+            (Currently number of attempted flips is more than those specified by
+            the user by a factor of 10^3 due to the way animate() method works.)
+        """
 
         max_iter = kwargs.get("max_iter")
 
         self.figure = plt.figure()
         self.image = plt.imshow(self.lattice, animated=True)
 
-        self.animation = animation.FuncAnimation(self.figure,self.animate,frames=max_iter,repeat=False,interval=0.001,blit=True)
+        self.animation = animation.FuncAnimation(self.figure,self.animate,frames=max_iter,repeat=False,interval=50,blit=True)
         plt.show()
 
     def exportAnimation(self, filename, dotsPerInch):
         """
-        Exports the animation to a .gif file without compression. (Linux
-        distributions with package "imagemagick" only. Files can be large!)
+            Exports the animation to a .gif file without compression. (Linux
+            distributions with package "imagemagick" only. Files can be large!)
+            # TODO: rename this for PEP8 compliance and add support for other
+            image writing packages.
         """
         self.animation.save(filename, dpi=dotsPerInch, writer="imagemagick")
