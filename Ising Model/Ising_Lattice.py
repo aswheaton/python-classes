@@ -1,8 +1,8 @@
 #! usr/bin/env/python
 
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
+
+from threading import Thread
 
 class Ising_Lattice(object):
     """
@@ -66,6 +66,8 @@ class Ising_Lattice(object):
         """
             Randomly chooses a site on the lattice and tries to flip it.
             # TODO: Make line wrapping PEP8 compliant, here.
+            # TODO: Move kawasaki/glauber differentiation into the delta_energy
+            method.
         """
         if self.dyn == "glauber":
             indices = (np.random.randint(0, self.size[0]),
@@ -103,18 +105,6 @@ class Ising_Lattice(object):
     def magnetization(self):
         return(np.sum(self.lattice))
 
-    def animate(self, *args):
-        """
-            Steps the simulation forward by attempting 1000 spin flips.
-            Takes *args for call by animation.FuncAnimation instance.
-            # TODO: Make make number of attempted spin flips configurable!
-            # TODO: Determine the purpose of the trailing comma in return().
-        """
-        for i in range(1000):
-            self.attempt_flip()
-        self.image.set_array(self.lattice)
-        return(self.image,)
-
     def run(self, **kwargs):
         """
             Sets up a figure, image, and FuncAnimation instance, then runs the
@@ -127,23 +117,5 @@ class Ising_Lattice(object):
         """
 
         self.dyn = kwargs.get("dynamic")
-        max_iter = kwargs.get("max_iter")
-
-        self.figure = plt.figure()
-        self.image = plt.imshow(self.lattice, animated=True)
-
-        # TODO: Make line wrapping PEP8 compliant, here.
-        self.animation = animation.FuncAnimation(self.figure, self.animate,
-                                                frames=max_iter, repeat=False,
-                                                interval=50, blit=True
-                                                )
-        plt.show()
-
-    def exportAnimation(self, filename, dotsPerInch):
-        """
-            Exports the animation to a .gif file without compression. (Linux
-            distributions with package "imagemagick" only. Files can be large!)
-            # TODO: rename this for PEP8 compliance and add support for other
-            image writing packages.
-        """
-        self.animation.save(filename, dpi=dotsPerInch, writer="imagemagick")
+        simulation = Thread(target=self.attempt_flip)
+        simulation.start()
