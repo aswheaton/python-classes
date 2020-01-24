@@ -85,8 +85,23 @@ class Ising_Lattice(object):
                         )
 
             if self.lattice[indices_i] == -self.lattice[indices_j]:
-                self.lattice[indices_i] *= -1
                 self.lattice[indices_j] *= -1
+                i_energy = self.delta_energy(indices_i)
+                self.lattice[indices_j] *= -1
+                self.lattice[indices_i] *= -1
+                j_energy = self.delta_energy(indices_j)
+
+                delta_energy = i_energy + j_energy
+
+                if delta_energy <= 0.0:
+                    self.lattice[indices_j] *= 1
+                elif np.random.rand() < np.exp(- delta_energy / self.temp):
+                    self.lattice[indices_j] *= 1
+                else:
+                    self.lattice[indices_i] *= -1
+
+    def magnetization(self):
+        return(np.sum(self.lattice))
 
     def animate(self, *args):
         """
@@ -104,7 +119,8 @@ class Ising_Lattice(object):
         """
             Sets up a figure, image, and FuncAnimation instance, then runs the
             simulation to the specified maximum number of iterations.
-            # TODO: Utilise the Boolean animate attribute here, and implement datafile output.
+            # TODO: Utilise the Boolean animate attribute here, and implement
+            datafile output.
             # TODO: Make the number of Metropolis trials more understandable.
             (Currently number of attempted flips is more than those specified by
             the user by a factor of 10^3 due to the way animate() method works.)
